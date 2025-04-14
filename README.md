@@ -99,5 +99,18 @@ Here are some resources to help you get started building.
 [Here](https://docs.llamaindex.ai/en/stable/module_guides/indexing/document_management/) is some documentation for adding documents to a `VectorStoreIndex`.
 Each document is large (100+ pages) so you probably want to split them up instead of ingesting them all at once.
 - You'll need to implement your document indexing pipeline as a DBOS workflow so it can recover from the chaos monkey. [Here](https://docs.dbos.dev/python/tutorials/workflow-tutorial) is the documenation for workflows. [Here](https://docs.dbos.dev/python/integrating-dbos) is the documentation for adding DBOS to your app.
+- You can use [DBOS queues](https://docs.dbos.dev/python/tutorials/queue-tutorial) to index multiple documents concurrently.
+
+### Scoring
+
+Scoring is based on the total amount of time it takes for your application to ingest all documents.
+To qualify, your app must:
+
+- Be able to accurately answer questions about Apple's financial performance (such as the earnings per share question above).
+- Not modify the chaos monkey in any way.
+
+The application prints when document ingestion begins and ends--when you're done, report these print statements.
+Because of the chaos monkey, ingesting documents may require restarting and recovering multiple times, so measure time starting from the very beginning of your successful ingestion, across all restarts.
+The team that ingests documents the fastest is the winner!
 
 Good luck, and may your application survive the chaos monkey's rampage!

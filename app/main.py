@@ -1,5 +1,6 @@
 import logging
 import os
+import datetime
 
 from llama_index.core import VectorStoreIndex
 
@@ -28,6 +29,12 @@ def index_apple_data(index: VectorStoreIndex):
     ]
     print(f"TODO: implement indexing for Apple financial documents: {urls}")
 
+    # Implement your document ingestion pipeline here.
+    # When you're done, uncomment this next line so you can measure how long document ingestion took.
+
+    # print(f"Document ingestion completed at {datetime.datetime.now()}")
+
+
 
 ###########################
 # Terminal Interface
@@ -44,6 +51,7 @@ def main():
     if index_docs == "y":
         # If indexing documents, start the chaos monkey, which simulates failures
         # by randomly terminating the process.
+        print(f"Starting document ingestion at {datetime.datetime.now()}")
         ChaosMonkey.start()
         index_apple_data(index)
 
