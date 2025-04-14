@@ -4,10 +4,8 @@ Welcome to the DBOS Hackathon!
 
 Your goal is to build an application that can index financial documents into an AI model and accurately answer questions about them.
 But there's a catch!
-Your app has been infected by a chaos monkey that will randomly terminate it every few seconds.
+Your app has been infected by a chaos monkey that will randomly terminate it every few seconds. 🐒🐒🐒
 You must use DBOS to make your app recover from failures, so it can make progress despite the chaos monkey's best efforts.
-
-🙈🙉🙊
 
 ### Requirements
 
