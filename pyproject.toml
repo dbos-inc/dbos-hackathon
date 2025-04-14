@@ -11,3 +11,11 @@ dependencies = [
     "llama-index>=0.12.30",
     "llama-index-vector-stores-postgres>=0.4.2",
 ]
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+filter_files = true
+atomic = true

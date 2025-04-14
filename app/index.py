@@ -1,6 +1,5 @@
 from llama_index.core import Settings, StorageContext, VectorStoreIndex
-from llama_index.embeddings.openai import (OpenAIEmbedding,
-                                           OpenAIEmbeddingModelType)
+from llama_index.embeddings.openai import OpenAIEmbedding, OpenAIEmbeddingModelType
 from llama_index.vector_stores.postgres import PGVectorStore
 from sqlalchemy import create_engine, make_url, text
 
