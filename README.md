@@ -91,15 +91,16 @@ Apple's earnings per share for the years 2020 to 2024 are as follows:
 - 2024: Basic EPS $6.11, Diluted EPS $6.08
 ```
 
-### Resources
+### Resources & Tips
 
-Here are some resources to help you get started building.
+Here are some resources and tips to help you get started building.
 
 - After downloading and parsing the documents, you'll need to add them to the `VectorStoreIndex` so the AI model can answer questions about them. 
 [Here](https://docs.llamaindex.ai/en/stable/module_guides/indexing/document_management/) is some documentation for adding documents to a `VectorStoreIndex`.
 Each document is large (100+ pages) so you probably want to split them up instead of ingesting them all at once.
 - You'll need to implement your document indexing pipeline as a DBOS workflow so it can recover from the chaos monkey. [Here](https://docs.dbos.dev/python/tutorials/workflow-tutorial) is the documenation for workflows. [Here](https://docs.dbos.dev/python/integrating-dbos) is the documentation for adding DBOS to your app.
 - You can use [DBOS queues](https://docs.dbos.dev/python/tutorials/queue-tutorial) to index multiple documents concurrently.
+- To reset your database between runs, deleting both your vector store and any DBOS workflow metadata, run `python3 reset.py`.
 
 ### Scoring
 
