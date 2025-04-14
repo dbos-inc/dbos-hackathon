@@ -5,15 +5,10 @@ from tempfile import TemporaryDirectory
 from typing import List
 
 import requests
-import uvicorn
-from fastapi import FastAPI, Response, status
 from llama_index.core import Settings, StorageContext, VectorStoreIndex
 from llama_index.readers.file import PDFReader
 from llama_index.vector_stores.postgres import PGVectorStore
-from pydantic import BaseModel, HttpUrl
 from sqlalchemy import create_engine, make_url, text
-
-app = FastAPI()
 
 logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -23,21 +18,29 @@ logger = logging.getLogger("dbos-hackathon")
 ###########################
 # Configure Vector Index
 ###########################
+db_url = os.environ.get(
+    "DBOS_DATABASE_URL", "postgresql://postgres:dbos@localhost:5432/dbos_hackathon"
+)
 
-db_url = os.environ.get("DBOS_DATABASE_URL", "postgresql://postgres:dbos@localhost:5432/dbos_hackathon")
 
 def configure_index():
     Settings.chunk_size = 512
     url = make_url(db_url)
+
     # Create the index database if it does not exist
-    conn_string = f"postgresql://{url.username}:{url.password}@{url.host}:{url.port}/postgres"
-    engine = create_engine(conn_string)       
+    conn_string = (
+        f"postgresql://{url.username}:{url.password}@{url.host}:{url.port}/postgres"
+    )
+    engine = create_engine(conn_string)
     with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as conn:
-        result = conn.execute(text(f"SELECT 1 FROM pg_database WHERE datname = '{url.database}'"))
+        result = conn.execute(
+            text(f"SELECT 1 FROM pg_database WHERE datname = '{url.database}'")
+        )
         db_exists = result.scalar() is not None
         if not db_exists:
             conn.execute(text(f"CREATE DATABASE {url.database}"))
             print(f"Database '{url.database}' created successfully.")
+
     # Create the vector index
     vector_store = PGVectorStore.from_params(
         database=url.database,
@@ -53,71 +56,52 @@ def configure_index():
     return index, chat_engine
 
 
-index, chat_engine = configure_index()
-
 ###########################
 # Index Documents
 ###########################
 
-executor = ThreadPoolExecutor()
 
-
-def index_documents(urls: List[HttpUrl]):
-    indexed_pages = 0
-    futures = []
-    for url in urls:
-        future = executor.submit(index_document, url)
-        futures.append(future)
-    for future in futures:
-        indexed_pages += future.result()
-    logger.info(f"Indexed {len(urls)} documents totaling {indexed_pages} pages")
-    return indexed_pages
-
-
-def index_document(document_url: HttpUrl) -> int:
-    with TemporaryDirectory() as temp_dir:
-        temp_file_path = os.path.join(temp_dir, "file.pdf")
-        with open(temp_file_path, "wb") as temp_file:
-            with requests.get(document_url, stream=True) as r:
-                r.raise_for_status()
-                for page in r.iter_content(chunk_size=8192):
-                    temp_file.write(page)
-            temp_file.seek(0)
-            reader = PDFReader()
-            pages = reader.load_data(temp_file_path)
-    for page in pages:
-        index.insert(page)
-    return len(pages)
-
-
-class URLList(BaseModel):
-    urls: List[HttpUrl]
-
-
-@app.post("/index")
-def index_endpoint(urls: URLList):
-    executor.submit(index_documents, urls.urls)
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+def index_apple_data(index):
+    urls = [
+        "https://d18rn0p25nwr6d.cloudfront.net/CIK-0000320193/faab4555-c69b-438a-aaf7-e09305f87ca3.pdf",
+        "https://d18rn0p25nwr6d.cloudfront.net/CIK-0000320193/b4266e40-1de6-4a34-9dfb-8632b8bd57e0.pdf",
+        "https://d18rn0p25nwr6d.cloudfront.net/CIK-0000320193/42ede86f-6518-450f-bc88-60211bf39c6d.pdf",
+    ]
+    print(f"Indexing Apple Financial Documents: {urls}")
+    # TODO: Implement document indexing
 
 
 ###########################
-# Query Index
+# Terminal Interface
 ###########################
 
 
-class ChatSchema(BaseModel):
-    message: str
+def main():
+    print("Initializing document query system...")
+    index, chat_engine = configure_index()
 
+    # Ask if user wants to index documents
+    index_docs = input(
+        "Would you like to index Apple financial documents? (y/n): "
+    ).lower()
+    if index_docs == "y":
+        index_apple_data(index)
 
-@app.post("/chat")
-def chat_workflow(chat: ChatSchema):
-    response = query_model(chat.message)
-    return {"content": response}
+    print("\nDocument query system ready! Type 'exit' to quit.")
+    print("Ask questions about Apple financial data:\n")
 
+    # Main interaction loop
+    while True:
+        user_input = input("> ")
+        if user_input.lower() in ["exit", "quit", "q"]:
+            break
 
-def query_model(message: str) -> str:
-    return str(chat_engine.chat(message))
+        print("Thinking...")
+        response = str(chat_engine.chat(user_input))
+        print("\nResponse:")
+        print(response)
+        print()
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    main()
