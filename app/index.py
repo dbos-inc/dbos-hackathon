@@ -32,6 +32,7 @@ def configure_index(db_url: str):
         password=url.password,
         port=url.port,
         user=url.username,
+        embed_dim=3072
     )
     vector_store._initialize()
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
