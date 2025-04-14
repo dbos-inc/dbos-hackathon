@@ -1,6 +1,7 @@
 import logging
 import os
 
+from dbos import DBOS
 from llama_index.core import VectorStoreIndex
 
 from .chaos_monkey import ChaosMonkey
@@ -36,14 +37,16 @@ def index_apple_data(index: VectorStoreIndex):
 
 
 def main():
-    print("Initializing document query system...")
+    # Configure vector index
     index, chat_engine = configure_index(db_url)
-    # Ask if user wants to index documents
+    # Ask if the user wants to index documents
     index_docs = input(
         "Would you like to index Apple financial documents? (y/n): "
     ).lower()
     if index_docs == "y":
-        ChaosMonkey()
+        # If indexing documents, start the chaos monkey, which simulates failures
+        # by randomly terminating the process.
+        ChaosMonkey.start()
         index_apple_data(index)
 
     print("\nDocument query system ready! Type 'exit' to quit.")
