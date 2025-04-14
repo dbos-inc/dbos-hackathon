@@ -40,7 +40,12 @@ Now, start the app:
 python3 -m app.main
 ```
 
-If everything was installed correctly, the app should prompt you "Would you like to index Apple financial documents? (y/n):".
+If everything was installed correctly, the app should prompt you:
+
+```
+Would you like to index Apple financial documents? (y/n):
+```
+
 This doesn't do anything yet--you need to implement indexing!
 
 ### The Task
