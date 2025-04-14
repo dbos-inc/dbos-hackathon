@@ -1,5 +1,7 @@
 import os
 
+from llama_index.core import VectorStoreIndex
+
 from .index import configure_index
 
 db_url = os.environ.get(
@@ -11,7 +13,7 @@ db_url = os.environ.get(
 ###########################
 
 
-def index_apple_data(index):
+def index_apple_data(index: VectorStoreIndex):
     urls = [
         "https://d18rn0p25nwr6d.cloudfront.net/CIK-0000320193/faab4555-c69b-438a-aaf7-e09305f87ca3.pdf",
         "https://d18rn0p25nwr6d.cloudfront.net/CIK-0000320193/b4266e40-1de6-4a34-9dfb-8632b8bd57e0.pdf",
