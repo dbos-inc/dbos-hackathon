@@ -1,12 +1,7 @@
 import logging
 import os
-from concurrent.futures import ThreadPoolExecutor
-from tempfile import TemporaryDirectory
-from typing import List
 
-import requests
 from llama_index.core import Settings, StorageContext, VectorStoreIndex
-from llama_index.readers.file import PDFReader
 from llama_index.vector_stores.postgres import PGVectorStore
 from sqlalchemy import create_engine, make_url, text
 
