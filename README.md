@@ -68,7 +68,7 @@ def index_apple_data(index: VectorStoreIndex):
 But be careful!
 Starting the ingestion pipeline also starts a chaos monkey daemon.
 After a few seconds, the chaos monkey will kill your process.
-You need to use DBOS to implement a pipeline that can recover from failures so it can make progress despite the monkey's best efforts.
+You need to add DBOS to your pipeline so it can recover from failures and make progress despite the monkey's best efforts.
 
 After your documents are ingested, you can ask questions of the model to see if your data has been correctly ingested.
 For example, you may ask it:
