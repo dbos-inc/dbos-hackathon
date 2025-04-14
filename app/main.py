@@ -1,7 +1,6 @@
 import logging
 import os
 
-from dbos import DBOS
 from llama_index.core import VectorStoreIndex
 
 from .chaos_monkey import ChaosMonkey
