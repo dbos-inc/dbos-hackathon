@@ -1,10 +1,14 @@
 from llama_index.core import Settings, StorageContext, VectorStoreIndex
+from llama_index.embeddings.openai import OpenAIEmbedding, OpenAIEmbeddingModelType
 from llama_index.vector_stores.postgres import PGVectorStore
 from sqlalchemy import create_engine, make_url, text
 
 
 def configure_index(db_url: str):
     Settings.chunk_size = 512
+    Settings.embed_model = OpenAIEmbedding(
+        model=OpenAIEmbeddingModelType.TEXT_EMBED_3_LARGE
+    )
     url = make_url(db_url)
 
     # Create the index database if it does not exist
