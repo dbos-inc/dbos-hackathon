@@ -54,7 +54,7 @@ Your task is to implement a pipeline that downloads, parses, and indexes documen
 Specifically, implement this stub to index Apple SEC 10-K filings for 2020-2024:
 
 ```python
-def index_apple_data(index: VectorStoreIndex):
+def index_apple_data():
     urls = [
         "https://dbos-hackathon.s3.us-east-1.amazonaws.com/apple-filings/apple-10k-2020.pdf",
         "https://dbos-hackathon.s3.us-east-1.amazonaws.com/apple-filings/apple-10k-2021.pdf",
@@ -66,7 +66,7 @@ def index_apple_data(index: VectorStoreIndex):
 ```
 
 But be careful!
-Starting the ingestion pipeline also starts a chaos monkey daemon.
+A chaos monkey daemon is also running in your application!
 After a few seconds, the chaos monkey will kill your process.
 You need to add DBOS to your pipeline so it can recover from failures and make progress despite the monkey's best efforts.
 
