@@ -1,9 +1,13 @@
+import logging
 import os
 
 from llama_index.core import VectorStoreIndex
 
 from .index import configure_index
 
+logging.basicConfig(
+    format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO
+)
 db_url = os.environ.get(
     "DBOS_DATABASE_URL", "postgresql://postgres:dbos@localhost:5432/dbos_hackathon"
 )
