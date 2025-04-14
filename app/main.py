@@ -3,6 +3,7 @@ import os
 
 from llama_index.core import VectorStoreIndex
 
+from .chaos_monkey import ChaosMonkey
 from .index import configure_index
 
 logging.basicConfig(
@@ -42,6 +43,7 @@ def main():
         "Would you like to index Apple financial documents? (y/n): "
     ).lower()
     if index_docs == "y":
+        ChaosMonkey()
         index_apple_data(index)
 
     print("\nDocument query system ready! Type 'exit' to quit.")
