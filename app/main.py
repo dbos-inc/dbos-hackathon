@@ -26,8 +26,7 @@ def index_apple_data(index: VectorStoreIndex):
         "https://dbos-hackathon.s3.us-east-1.amazonaws.com/apple-filings/apple-10k-2023.pdf",
         "https://dbos-hackathon.s3.us-east-1.amazonaws.com/apple-filings/apple-10k-2024.pdf",
     ]
-    print(f"Indexing Apple Financial Documents: {urls}")
-    # TODO: Implement document indexing
+    print(f"TODO: implement indexing for Apple financial documents: {urls}")
 
 
 ###########################
