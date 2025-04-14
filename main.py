@@ -13,6 +13,7 @@ logger = logging.getLogger("dbos-hackathon")
 ###########################
 # Configure Vector Index
 ###########################
+
 db_url = os.environ.get(
     "DBOS_DATABASE_URL", "postgresql://postgres:dbos@localhost:5432/dbos_hackathon"
 )
@@ -50,6 +51,7 @@ def configure_index():
     chat_engine = index.as_chat_engine()
     return index, chat_engine
 
+index, chat_engine = configure_index()
 
 ###########################
 # Index Documents
@@ -72,9 +74,6 @@ def index_apple_data(index):
 
 
 def main():
-    print("Initializing document query system...")
-    index, chat_engine = configure_index()
-
     # Ask if user wants to index documents
     index_docs = input(
         "Would you like to index Apple financial documents? (y/n): "
