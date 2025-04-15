@@ -66,7 +66,7 @@ def main():
     print("\nDocument query system ready! Type 'exit' to quit.")
     print("Ask questions about Apple financial data:\n")
 
-    # Chat loop to ask questions of th emodel
+    # Chat loop to ask questions of the model
     while True:
         user_input = input("> ")
         if user_input.lower() in ["exit", "quit", "q"]:
