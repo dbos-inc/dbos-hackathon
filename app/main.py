@@ -19,7 +19,8 @@ db_url = os.environ.get(
     "DBOS_DATABASE_URL", "postgresql://postgres:dbos@localhost:5432/dbos_hackathon"
 )
 
-# Create the vector index. You'll be adding the downloaded and parsed documents to this.
+# Create the vector index.
+# You'll add documents to it so the model can accurately answer questions about them.
 index: VectorStoreIndex
 index, chat_engine = configure_index(db_url)
 
