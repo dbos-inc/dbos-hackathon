@@ -1,0 +1,21 @@
+[project]
+name = "dbos-hackathon"
+version = "0.1.0"
+description = "This is the starter template for a DBOS hackathon!"
+readme = "README.md"
+requires-python = ">=3.10.6"
+dependencies = [
+    "black>=25.1.0",
+    "dbos>=0.25.1",
+    "isort>=6.0.1",
+    "llama-index>=0.12.30",
+    "llama-index-vector-stores-postgres>=0.4.2",
+]
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+filter_files = true
+atomic = true
