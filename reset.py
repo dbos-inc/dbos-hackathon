@@ -8,6 +8,7 @@ db_url = os.environ.get(
     "DBOS_DATABASE_URL", "postgresql://postgres:dbos@localhost:5432/dbos_hackathon"
 )
 
+
 def reset():
     print(f"Resetting DBOS Hackathon database")
     url = make_url(db_url)
@@ -21,6 +22,7 @@ def reset():
         for db in [vector_store, sys_db]:
             conn.execute(text(f"DROP DATABASE IF EXISTS {db} WITH (FORCE)"))
     print(f"DBOS Hackathon database successfully reset")
+
 
 if __name__ == "__main__":
     reset()
