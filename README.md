@@ -2,17 +2,18 @@
 
 Welcome to the DBOS Hackathon!
 
-Your goal is to build an application that can index financial documents into an AI model and accurately answer questions about them.
+Your goal is to build an application that can index financial documents into a vector store so an AI model can accurately answer questions about them.
 But there's a catch!
-Your app has been infected by a chaos monkey that will randomly terminate it every few seconds. 🐒🐒🐒
+Inside your application lives a chaos monkey that will randomly terminate it every few seconds. 🐒🐒🐒
 You must use DBOS to make your app recover from failures, so it can make progress despite the chaos monkey's best efforts.
 
-### Requirements
+## Requirements
 
 - You must have Python >=3.10 installed. Check your Python version with `python3 --version`.
-- You must have Docker installed on your computer. Download it [here](https://docs.docker.com/engine/install/). We use Docker to run a containerized Postgres database.
+- You must have Docker installed on your computer. Download it [here](https://docs.docker.com/engine/install/). The app uses Docker to run a containerized Postgres database.
+- You need an OpenAI API key. It must be available as an environment variable: `export OPENAI_API_KEY=...`.
 
-### Getting Started
+## Getting Started
 
 First, create and activate a virtual environment with:
 
@@ -22,7 +23,7 @@ source .venv/bin/activate
 ```
 
 Then, install dependencies.
-In addition to DBOS, we use [LlamaIndex](https://www.llamaindex.ai/) to manage the vector index and interact with the AI model.
+In addition to DBOS, the app uses [LlamaIndex](https://www.llamaindex.ai/) to manage the vector index and interact with the AI model.
 
 ```shell
 pip install dbos llama-index llama-index-vector-stores-postgres
@@ -48,7 +49,7 @@ Would you like to index Apple financial documents? (y/n):
 
 This doesn't do anything yet--you need to implement indexing!
 
-### The Task
+## The Task
 
 Your task is to implement a pipeline that downloads, parses, and indexes documents so that the AI model can accurately answer questions about them.
 Specifically, implement this stub to index Apple SEC 10-K filings for 2020-2024:
@@ -91,7 +92,7 @@ Apple's earnings per share for the years 2020 to 2024 are as follows:
 - 2024: Basic EPS $6.11, Diluted EPS $6.08
 ```
 
-### Resources & Tips
+## Resources & Tips
 
 Here are some resources and tips to help you get started building.
 
@@ -100,9 +101,9 @@ Here are some resources and tips to help you get started building.
 Each document is large (100+ pages) so you probably want to split them up instead of ingesting them all at once.
 - You'll need to implement your document indexing pipeline as a DBOS workflow so it can recover from the chaos monkey. [Here](https://docs.dbos.dev/python/tutorials/workflow-tutorial) is the documenation for workflows. [Here](https://docs.dbos.dev/python/integrating-dbos) is the documentation for adding DBOS to your app.
 - You can use [DBOS queues](https://docs.dbos.dev/python/tutorials/queue-tutorial) to index multiple documents concurrently.
-- To reset your database between runs, deleting both your vector store and any DBOS workflow metadata, run `python3 reset.py`.
+- To reset your database between runs (including both your vector store and DBOS workflow metadata) run `python3 reset.py`.
 
-### Scoring
+## Scoring
 
 Scoring is based on the total amount of time it takes for your application to ingest all documents.
 To qualify, your app must:
@@ -110,7 +111,7 @@ To qualify, your app must:
 - Be able to accurately answer questions about Apple's financial performance (such as the earnings per share question above).
 - Not modify the chaos monkey in any way.
 
-The application prints when document ingestion begins and ends--when you're done, report these print statements.
+The application prints when document ingestion begins and ends--when you're done, report those times.
 Because of the chaos monkey, ingesting documents may require restarting and recovering multiple times, so measure time starting from the very beginning of your successful ingestion, across all restarts.
 The team that ingests documents the fastest is the winner!
 
