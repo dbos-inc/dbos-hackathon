@@ -7,13 +7,13 @@ But there's a catch!
 Inside your application lives a chaos monkey that will randomly terminate it every few seconds. 🐒🐒🐒
 You must use DBOS to make your app recover from failures, so it can make progress despite the chaos monkey's best efforts.
 
-### Requirements
+## Requirements
 
 - You must have Python >=3.10 installed. Check your Python version with `python3 --version`.
 - You must have Docker installed on your computer. Download it [here](https://docs.docker.com/engine/install/). The app uses Docker to run a containerized Postgres database.
 - You need an OpenAI API key. It must be available as an environment variable: `export OPENAI_API_KEY=...`.
 
-### Getting Started
+## Getting Started
 
 First, create and activate a virtual environment with:
 
@@ -49,7 +49,7 @@ Would you like to index Apple financial documents? (y/n):
 
 This doesn't do anything yet--you need to implement indexing!
 
-### The Task
+## The Task
 
 Your task is to implement a pipeline that downloads, parses, and indexes documents so that the AI model can accurately answer questions about them.
 Specifically, implement this stub to index Apple SEC 10-K filings for 2020-2024:
@@ -92,7 +92,7 @@ Apple's earnings per share for the years 2020 to 2024 are as follows:
 - 2024: Basic EPS $6.11, Diluted EPS $6.08
 ```
 
-### Resources & Tips
+## Resources & Tips
 
 Here are some resources and tips to help you get started building.
 
@@ -103,7 +103,7 @@ Each document is large (100+ pages) so you probably want to split them up instea
 - You can use [DBOS queues](https://docs.dbos.dev/python/tutorials/queue-tutorial) to index multiple documents concurrently.
 - To reset your database between runs (including both your vector store and DBOS workflow metadata) run `python3 reset.py`.
 
-### Scoring
+## Scoring
 
 Scoring is based on the total amount of time it takes for your application to ingest all documents.
 To qualify, your app must:
