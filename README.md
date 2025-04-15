@@ -4,7 +4,7 @@ Welcome to the DBOS Hackathon!
 
 Your goal is to build an application that can index financial documents into a vector store so an AI model can accurately answer questions about them.
 But there's a catch!
-Inside your application is a chaos monkey that will randomly terminate it every few seconds. 🐒🐒🐒
+Inside your application lives a chaos monkey that will randomly terminate it every few seconds. 🐒🐒🐒
 You must use DBOS to make your app recover from failures, so it can make progress despite the chaos monkey's best efforts.
 
 ### Requirements
