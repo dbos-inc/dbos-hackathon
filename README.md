@@ -101,7 +101,7 @@ Here are some resources and tips to help you get started building.
 Each document is large (100+ pages) so you probably want to split them up instead of ingesting them all at once.
 - You'll need to implement your document indexing pipeline as a DBOS workflow so it can recover from the chaos monkey. [Here](https://docs.dbos.dev/python/tutorials/workflow-tutorial) is the documenation for workflows. [Here](https://docs.dbos.dev/python/integrating-dbos) is the documentation for adding DBOS to your app.
 - You can use [DBOS queues](https://docs.dbos.dev/python/tutorials/queue-tutorial) to index multiple documents concurrently.
-- To reset your database between run (including both your vector store and DBOS workflow metadata) run `python3 reset.py`.
+- To reset your database between runs (including both your vector store and DBOS workflow metadata) run `python3 reset.py`.
 
 ### Scoring
 
