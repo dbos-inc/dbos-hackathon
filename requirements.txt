@@ -1,0 +1,4 @@
+dbos
+llama-index==0.12.31
+llama-index-vector-stores-postgres==0.4.2
+llama-index-readers-remote==0.3.0

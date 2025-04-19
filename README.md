@@ -26,7 +26,7 @@ Then, install dependencies.
 In addition to DBOS, the app uses [LlamaIndex](https://www.llamaindex.ai/) to manage the vector index and interact with the AI model.
 
 ```shell
-pip install dbos llama-index llama-index-vector-stores-postgres
+pip install -r requirements.txt --upgrade
 ```
 
 Next, start a Postgres database and vector store using Docker:
@@ -51,10 +51,17 @@ This doesn't do anything yet--you need to implement indexing!
 
 ## The Task
 
-Your task is to implement a pipeline that downloads, parses, and indexes documents so that the AI model can accurately answer questions about them.
-Specifically, implement this stub to index Apple SEC 10-K filings for 2020-2024:
+Your task is to implement a durable pipeline that downloads, parses, and indexes documents so that the AI model can accurately answer questions about them. We already implemented some basic functions to index Apple SEC 10-K filings for 2020-2024:
 
 ```python
+###########################
+# Index Documents
+# TODO: Make this a durable pipeline that can handle failures, and optimize its speed.
+###########################
+
+def index_document(url: str) -> int:
+    ...
+
 def index_apple_data():
     urls = [
         "https://dbos-hackathon.s3.us-east-1.amazonaws.com/apple-filings/apple-10k-2020.pdf",
@@ -63,7 +70,13 @@ def index_apple_data():
         "https://dbos-hackathon.s3.us-east-1.amazonaws.com/apple-filings/apple-10k-2023.pdf",
         "https://dbos-hackathon.s3.us-east-1.amazonaws.com/apple-filings/apple-10k-2024.pdf",
     ]
-    print(f"TODO: implement indexing for Apple financial documents: {urls}")
+    indexed_pages = 0
+    for url in urls:
+        num_pages = index_document(url)
+        indexed_pages += num_pages
+
+    # Measure how long document ingestion took.
+    print(f"Document ingestion completed at {datetime.datetime.now()}. Indexed {indexed_pages} pages.")
 ```
 
 But be careful!
