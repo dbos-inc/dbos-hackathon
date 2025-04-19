@@ -3,6 +3,7 @@ import logging
 import os
 
 from llama_index.core import VectorStoreIndex
+from llama_index.readers.remote import RemoteReader
 
 from .chaos_monkey import ChaosMonkey
 from .index import configure_index
@@ -27,8 +28,26 @@ index, chat_engine = configure_index(db_url)
 
 ###########################
 # Index Documents
+# TODO: Make this a durable pipeline that can handle failures, and optimize its speed.
 ###########################
 
+def index_document(url: str) -> int:
+    """
+    Download a document from the given URL, parse it, and add it to the vector index.
+    Returns the number of pages indexed.
+    """
+    # Download the document
+    logging.info(f"Downloading document from {url}")
+    loader = RemoteReader()
+    documents = loader.load_data(url=url)
+
+    # Add the each page to the index
+    for doc in documents:
+        index.insert(doc)
+
+    logging.info(f"Indexed {len(documents)} pages")
+    # Return the number of pages indexed
+    return len(documents)
 
 def index_apple_data():
     urls = [
@@ -38,14 +57,14 @@ def index_apple_data():
         "https://dbos-hackathon.s3.us-east-1.amazonaws.com/apple-filings/apple-10k-2023.pdf",
         "https://dbos-hackathon.s3.us-east-1.amazonaws.com/apple-filings/apple-10k-2024.pdf",
     ]
-    print(f"TODO: implement indexing for Apple financial documents: {urls}")
 
-    # Implement your document ingestion pipeline here.
-    # Download the documents, parse them, and add them to the vector index!
+    indexed_pages = 0
+    for url in urls:
+        num_pages = index_document(url)
+        indexed_pages += num_pages
 
-    # When you're done, uncomment this next line so you can measure how long document ingestion took.
-
-    # print(f"Document ingestion completed at {datetime.datetime.now()}")
+    # Measure how long document ingestion took.
+    print(f"Document ingestion completed at {datetime.datetime.now()}. Indexed {indexed_pages} pages.")
 
 
 ###########################
