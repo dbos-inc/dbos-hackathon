@@ -17,10 +17,30 @@ You must use DBOS to make your app recover from failures, so it can make progres
 
 First, create and activate a virtual environment with:
 
+**macOS/Linux**
 ```shell
 python3 -m venv .venv
 source .venv/bin/activate
 ```
+
+
+<details><summary><strong>Windows PowerShell</strong></summary>
+
+```
+python3 -m venv .venv
+.venv\Scripts\activate.ps1
+```
+</details>
+
+
+<details><summary><strong>Windows cmd</strong></summary>
+    
+```
+python3 -m venv .venv
+.venv\Scripts\activate.bat
+```    
+</details>
+
 
 Then, install dependencies.
 In addition to DBOS, the app uses [LlamaIndex](https://www.llamaindex.ai/) to manage the vector index and interact with the AI model.
@@ -29,11 +49,34 @@ In addition to DBOS, the app uses [LlamaIndex](https://www.llamaindex.ai/) to ma
 pip install -r requirements.txt --upgrade
 ```
 
-Next, start a Postgres database and vector store using Docker:
+Next, start a Postgres database using Docker. We'll also use it as a vector store.
 
 ```
+docker pull pgvector/pgvector:pg16
 dbos postgres start
 ```
+
+Then, set the OpenAI API key as an enviroment variable:
+
+**macOS/Linux**
+```
+export OPENAI_API_KEY=<your-key>
+```
+
+<details><summary><strong>Windows PowerShell</strong></summary>
+
+```
+$env:OPENAI_API_KEY = <your-key>
+```
+</details>
+
+
+<details><summary><strong>Windows cmd</strong></summary>
+    
+```
+set OPENAI_API_KEY=<your-key>
+```    
+</details>
 
 Now, start the app:
 
@@ -47,7 +90,7 @@ If everything was installed correctly, the app should prompt you:
 Would you like to index Apple financial documents? (y/n):
 ```
 
-This doesn't do anything yet--you need to implement indexing!
+This will start indexing documents -- but it is not reliable yet and can randomly crash!
 
 ## The Task
 
