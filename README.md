@@ -15,7 +15,13 @@ You must use DBOS to make your app recover from failures, so it can make progres
 
 ## Getting Started
 
-First, create and activate a virtual environment with:
+First, clone this repository to a local folder and enter the folder.
+```shell
+git clone https://github.com/dbos-inc/dbos-hackathon.git
+cd dbos-hackathon
+```
+
+Then, create and activate a virtual environment in this folder with:
 
 **macOS/Linux**
 ```shell
@@ -87,7 +93,7 @@ python3 -m app.main
 If everything was installed correctly, the app should prompt you:
 
 ```
-Would you like to index Apple financial documents? (y/n):
+Would you like to index Apple financial documents from the beginning? (y/n):
 ```
 
 This will start indexing documents -- but it is not reliable yet and can randomly crash!
@@ -127,11 +133,19 @@ A chaos monkey daemon is also running in your application!
 After a few seconds, the chaos monkey will kill your process.
 You need to add DBOS to your pipeline so it can recover from failures and make progress despite the monkey's best efforts.
 
+If you correctly add DBOS to your code, when you restart your app after crashes, your app should print something like:
+```
+15:36:34 [    INFO] (dbos:_dbos.py:485) Recovering <N> workflows from application version ...
+```
+
+Congrats! You no longer need to restart indexing documents from the beginning after crashes. Simply watch DBOS to recover workflows from where they left off.
+
+
 After your documents are ingested, you can ask questions of the model to see if your data has been correctly ingested.
 For example, you may ask it:
 
 ```
-> What were Apple's earnings per share in 2020, 2021, 2022, 2023, and 2024?
+> What was Apple's basic earnings per share and diluted EPS in 2020?
 ```
 
 If it's ingested all documents correctly, its answer should look something like this:
@@ -140,12 +154,45 @@ If it's ingested all documents correctly, its answer should look something like 
 Thinking...
 
 Response:
-Apple's earnings per share for the years 2020 to 2024 are as follows:
-- 2020: Basic EPS $3.31, Diluted EPS $3.28
-- 2021: Basic EPS $5.67, Diluted EPS $5.61
-- 2022: Basic EPS $6.15, Diluted EPS $6.11
-- 2023: Basic EPS $6.16, Diluted EPS $6.13
-- 2024: Basic EPS $6.11, Diluted EPS $6.08
+Apple's basic earnings per share in 2020 was $3.31, and the diluted earnings per share was $3.28.
+```
+
+Repeat the same question for different years (between 2020 to 2024) should all give reasonable answers:
+
+```
+> What was Apple's basic earnings per share and diluted EPS in 2021?
+
+Thinking...
+
+Response:
+Apple's basic earnings per share in 2021 was $5.67, and the diluted earnings per share was $5.61.
+```
+
+```
+> What was Apple's basic earnings per share and diluted EPS in 2022?
+
+Thinking...
+
+Response:
+Apple's basic earnings per share in 2022 was $5.67, and the diluted earnings per share in 2022 would be $5.61.
+```
+
+```
+> What was Apple's basic earnings per share and diluted EPS in 2023?
+
+Thinking...
+
+Response:
+Apple's basic earnings per share in 2023 was $6.16, and the diluted earnings per share was $6.13.
+```
+
+```
+> What was Apple's basic earnings per share and diluted EPS in 2024?
+
+Thinking...
+
+Response:
+Apple's basic earnings per share in 2024 was $6.11, and the diluted earnings per share was $6.08.
 ```
 
 ## Resources & Tips
@@ -168,6 +215,12 @@ To qualify, your app must:
 - Not modify the chaos monkey in any way.
 
 The application prints when document ingestion begins and ends--when you're done, report those times.
+```
+Starting document ingestion at [start time]
+...
+
+Document ingestion completed at [end time]. Indexed 468 pages.
+```
 Because of the chaos monkey, ingesting documents may require restarting and recovering multiple times, so measure time starting from the very beginning of your successful ingestion, across all restarts.
 The team that ingests documents the fastest is the winner!
 

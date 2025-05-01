@@ -77,7 +77,7 @@ def main():
     ChaosMonkey.start()
     # Ask if the user wants to index documents
     index_docs = input(
-        "Would you like to index Apple financial documents? (y/n): "
+        "Would you like to index Apple financial documents from the beginning? (y/n): "
     ).lower()
     if index_docs == "y":
         print(f"Starting document ingestion at {datetime.datetime.now()}")

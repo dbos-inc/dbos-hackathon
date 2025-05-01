@@ -1,4 +1,5 @@
 from llama_index.core import Settings, StorageContext, VectorStoreIndex
+from llama_index.core.utils import globals_helper
 from llama_index.embeddings.openai import OpenAIEmbedding, OpenAIEmbeddingModelType
 from llama_index.vector_stores.postgres import PGVectorStore
 from sqlalchemy import create_engine, make_url, text
@@ -35,6 +36,12 @@ def configure_index(db_url: str):
         embed_dim=3072,
     )
     vector_store._initialize()
+    try:
+        # Some setup is required to initialize the llama-index sentence splitter
+        globals_helper.punkt_tokenizer
+    except FileExistsError:
+        # Sometimes seen in deployments, should be benign.
+        pass
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
     index = VectorStoreIndex([], storage_context=storage_context)
     chat_engine = index.as_chat_engine()
