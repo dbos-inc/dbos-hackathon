@@ -131,7 +131,7 @@ After your documents are ingested, you can ask questions of the model to see if 
 For example, you may ask it:
 
 ```
-> What were Apple's earnings per share in 2020, 2021, 2022, 2023, and 2024?
+> What was Apple's earning per share in 2022?
 ```
 
 If it's ingested all documents correctly, its answer should look something like this:
@@ -140,12 +140,26 @@ If it's ingested all documents correctly, its answer should look something like 
 Thinking...
 
 Response:
-Apple's earnings per share for the years 2020 to 2024 are as follows:
-- 2020: Basic EPS $3.31, Diluted EPS $3.28
-- 2021: Basic EPS $5.67, Diluted EPS $5.61
-- 2022: Basic EPS $6.15, Diluted EPS $6.11
-- 2023: Basic EPS $6.16, Diluted EPS $6.13
-- 2024: Basic EPS $6.11, Diluted EPS $6.08
+Apple's earning per share in 2022 was $6.11.
+```
+
+Repeat the same question for different years (between 2020 to 2024) should all give reasonable answers:
+```
+> What was Apple's earning per share in 2023?
+
+Thinking...
+
+Response:
+Apple's earning per share in 2023 was $6.13 for diluted earnings per share and $6.16 for basic earnings per share.
+```
+
+```
+> What was Apple's earning per share in 2024?
+
+Thinking...
+
+Response:
+Apple's earning per share in 2024 was $6.11 for basic earnings per share and $6.08 for diluted earnings per share.
 ```
 
 ## Resources & Tips
