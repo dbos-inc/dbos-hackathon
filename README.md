@@ -21,7 +21,7 @@ git clone https://github.com/dbos-inc/dbos-hackathon.git
 cd dbos-hackathon
 ```
 
-Then, create and activate a virtual environment in this folder with:
+Then, create and activate a virtual environment in your folder with:
 
 **macOS/Linux**
 ```shell
@@ -55,7 +55,7 @@ In addition to DBOS, the app uses [LlamaIndex](https://www.llamaindex.ai/) to ma
 pip install -r requirements.txt --upgrade
 ```
 
-Next, start a Postgres database using Docker. We'll also use it as a vector store.
+Next, start a Postgres database using Docker. We'll use it as a vector store.
 
 ```
 docker pull pgvector/pgvector:pg16
@@ -96,7 +96,7 @@ If everything was installed correctly, the app should prompt you:
 Would you like to index Apple financial documents from the beginning? (y/n):
 ```
 
-This will start indexing documents -- but it is not reliable yet and can randomly crash!
+This will start indexing documents &mdash; but before it completes, the chaos monkey will kill it!
 
 ## The Task
 
@@ -105,7 +105,7 @@ Your task is to implement a durable pipeline that downloads, parses, and indexes
 ```python
 ###########################
 # Index Documents
-# TODO: Make this a durable pipeline that can handle failures, and optimize its speed.
+# TODO: Make this a durable pipeline that can handle failures, and optimize its performance.
 ###########################
 
 def index_document(url: str) -> int:
@@ -131,18 +131,18 @@ def index_apple_data():
 But be careful!
 A chaos monkey daemon is also running in your application!
 After a few seconds, the chaos monkey will kill your process.
-You need to add DBOS to your pipeline so it can recover from failures and make progress despite the monkey's best efforts.
+You need to turn your document ingestion pipeline into a DBOS durable workflow so it can recover from failures and make progress despite the monkey's best efforts.
 
 If you correctly add DBOS to your code, when you restart your app after crashes, your app should print something like:
 ```
 15:36:34 [    INFO] (dbos:_dbos.py:485) Recovering <N> workflows from application version ...
 ```
 
-Congrats! You no longer need to restart indexing documents from the beginning after crashes. Simply watch DBOS to recover workflows from where they left off.
-
+Congrats! You no longer need to restart document ingestion from the beginning after crashes.
+DBOS will automatically recover your document ingestion workflow from where it left off.
 
 After your documents are ingested, you can ask questions of the model to see if your data has been correctly ingested.
-For example, you may ask it:
+For example, you can ask it:
 
 ```
 > What was Apple's basic earnings per share and diluted EPS in 2020?
@@ -157,7 +157,7 @@ Response:
 Apple's basic earnings per share in 2020 was $3.31, and the diluted earnings per share was $3.28.
 ```
 
-Repeat the same question for different years (between 2020 to 2024) should all give reasonable answers:
+You can ask other questions about Apple's financial performance for different years (between 2020 to 2024) and get reasonable answers:
 
 ```
 > What was Apple's basic earnings per share and diluted EPS in 2021?
@@ -199,19 +199,17 @@ Apple's basic earnings per share in 2024 was $6.11, and the diluted earnings per
 
 Here are some resources and tips to help you get started building.
 
-- After downloading and parsing the documents, you'll need to add them to the `VectorStoreIndex` so the AI model can answer questions about them. 
-[Here](https://docs.llamaindex.ai/en/stable/module_guides/indexing/document_management/) is some documentation for adding documents to a `VectorStoreIndex`.
-Each document is large (100+ pages) so you probably want to split them up instead of ingesting them all at once.
 - You'll need to implement your document indexing pipeline as a DBOS workflow so it can recover from the chaos monkey. [Here](https://docs.dbos.dev/python/tutorials/workflow-tutorial) is the documenation for workflows. [Here](https://docs.dbos.dev/python/integrating-dbos) is the documentation for adding DBOS to your app.
 - You can use [DBOS queues](https://docs.dbos.dev/python/tutorials/queue-tutorial) to index multiple documents concurrently.
 - To reset your database between runs (including both your vector store and DBOS workflow metadata) run `python3 reset.py`.
+- This app uses a LlamaIndex `VectorStoreIndex` to index documents so the AI model can answer questions about them. Learn more about it [here](https://docs.llamaindex.ai/en/stable/module_guides/indexing/document_management/).
 
 ## Scoring
 
 Scoring is based on the total amount of time it takes for your application to ingest all documents.
 To qualify, your app must:
 
-- Be able to accurately answer questions about Apple's financial performance (such as the earnings per share question above).
+- Be able to accurately answer questions about Apple's financial performance (such as the earnings per share questions above).
 - Not modify the chaos monkey in any way.
 
 The application prints when document ingestion begins and ends--when you're done, report those times.

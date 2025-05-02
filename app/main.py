@@ -28,7 +28,7 @@ index, chat_engine = configure_index(db_url)
 
 ###########################
 # Index Documents
-# TODO: Make this a durable pipeline that can handle failures, and optimize its speed.
+# TODO: Make this a durable pipeline that can handle failures, and optimize its performance.
 ###########################
 
 def index_document(url: str) -> int:

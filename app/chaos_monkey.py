@@ -10,7 +10,7 @@ class ChaosMonkey:
     """
 
     @staticmethod
-    def start(min_time=5, max_time=20):
+    def start(min_time=20, max_time=40):
         """
         Start a ChaosMonkey that will randomly terminate the process.
 
