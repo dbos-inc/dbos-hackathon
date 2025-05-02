@@ -105,7 +105,7 @@ Your task is to implement a durable pipeline that downloads, parses, and indexes
 ```python
 ###########################
 # Index Documents
-# TODO: Make this a durable pipeline that can handle failures, and optimize its speed.
+# TODO: Make this a durable pipeline that can handle failures, and optimize its performance.
 ###########################
 
 def index_document(url: str) -> int:
